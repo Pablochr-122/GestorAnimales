@@ -16,4 +16,13 @@ public class AnimalService {
     }
 
     public List<Animal> findAll() { return animals; }
+
+    public Animal findById(int id) {
+        for (Animal animal : animals) {
+            if (animal.getId() == id) {
+                return animal;
+            }
+        }
+        return null;
+    }
 }

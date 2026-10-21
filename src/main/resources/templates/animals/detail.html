@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles</title>
+</head>
+<body>
+    <h1>Detalle del animal</h1>
+    <p>ID: <span th:text="${animal.id}"></span></p>
+    <p>Nombre: <span th:text="${animal.nombre}"></span></p>
+    <p>Vida Media: <span th:text="${animal.vidaMedia}"></span></p>
+    <p>Extinto: <span th:text="${animal.extinto ? 'Sí' : 'No'}"></span></p>
+    <a th:href="@{/animals}">Volver al listado</a>
+
+</body>
+</html>
