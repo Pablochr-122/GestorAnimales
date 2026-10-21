@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion Animales</title>
+</head>
+<body>
+    <table>
+        <thead>
+        <tr><th>Nombre</th><th>Vida media</th>
+            <th>Extinto</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="animal : ${animals}">
+                <td th:text="${animal.nombre}"></td>
+                <td th:text="${animal.vidaMedia}"></td>
+                <td th:text="${animal.extinto ? 'Sí' : 'No'}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
