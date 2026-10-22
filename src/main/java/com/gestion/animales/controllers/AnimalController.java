@@ -1,12 +1,14 @@
 package com.gestion.animales.controllers;
 
 import com.gestion.animales.models.Animal;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.gestion.animales.services.AnimalService;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 @RequestMapping("/animals")
@@ -27,7 +29,10 @@ public class AnimalController {
         Animal animal = service.findById(id);
 
         if (animal == null) {
-            return "redirect:/animals";
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Animal no encontrado"
+            );
         }
 
         model.addAttribute("animal", animal);
