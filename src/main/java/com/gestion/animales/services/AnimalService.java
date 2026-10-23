@@ -25,4 +25,16 @@ public class AnimalService {
         }
         return null;
     }
+
+    public Animal save(Animal animal) {
+        int nextId = animals.stream()
+                .mapToInt(Animal::getId)
+                .max()
+                .orElse(0) + 1;
+
+        animal.setId(nextId);
+        animals.add(animal);
+
+        return animal;
+    }
 }

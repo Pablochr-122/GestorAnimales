@@ -4,9 +4,7 @@ import com.gestion.animales.models.Animal;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import com.gestion.animales.services.AnimalService;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -39,6 +37,17 @@ public class AnimalController {
         return "animals/detail";
     }
 
+    @GetMapping("/new")
+    public String createForm(Model model) {
+        model.addAttribute("animal", new Animal());
+        return "animals/new";
+    }
+
+    @PostMapping
+    public String create(@ModelAttribute Animal animal) {
+        service.save(animal);
+        return "redirect:/animals";
+    }
 }
 
 

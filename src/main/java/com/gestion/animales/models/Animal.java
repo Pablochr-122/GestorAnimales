@@ -43,9 +43,9 @@ public class Animal {
         this.extinto = extinto;
     }
 
-    /*@Override
-    public String toString() {
-        return "id: " + id + ", nombre: " + nombre + ", vida media: " + vidaMedia + ", extinto: " + (extinto ? "Si" : "No");
-    }*/
+    public Animal() {
 
+    }
 }
+
+
