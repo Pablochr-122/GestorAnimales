@@ -1,9 +1,11 @@
 package com.gestion.animales.controllers;
 
 import com.gestion.animales.models.Animal;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.gestion.animales.services.AnimalService;
 import org.springframework.web.server.ResponseStatusException;
@@ -44,7 +46,14 @@ public class AnimalController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute Animal animal) {
+    public String create(
+            @Valid @ModelAttribute("animal") Animal animal,
+            BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "animals/new";
+        }
+
         service.save(animal);
         return "redirect:/animals";
     }
