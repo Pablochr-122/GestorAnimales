@@ -99,6 +99,13 @@ public class AnimalController {
     }
 
 
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Integer id) {
+        service.deleteById(id);
+        return "redirect:/animals";
+    }
+
+
 }
 
 

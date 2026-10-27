@@ -47,4 +47,9 @@ public class AnimalService {
             animal.setExtinto(datos.isExtinto());
         }
     }
+
+    public void deleteById(int id) {
+        animals.removeIf(animal -> animal.getId() == id);
+    }
+
 }

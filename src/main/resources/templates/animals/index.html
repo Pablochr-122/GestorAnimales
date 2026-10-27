@@ -22,6 +22,7 @@
             <th>Extinto</th>
             <th>Detalles</th>
             <th>Editar</th>
+            <th>Eliminar</th>
         </tr>
         </thead>
         <tbody>
@@ -30,8 +31,19 @@
                 <td th:text="${animal.nombre}"></td>
                 <td th:text="${animal.vidaMedia}"></td>
                 <td th:text="${animal.extinto ? 'Sí' : 'No'}"></td>
-                <td><a th:href="@{/animals/{id}(id=${animal.id})}"><button type="button" class="btn-outline theme-success">Detalles</button></a></td>
-                <td><a th:href="@{/animals/{id}/edit(id=${animal.id})}"><button type="button" class="btn-outline theme-success">Editar</button></a></td>
+                <td><a th:href="@{/animals/{id}(id=${animal.id})}"><button type="button" class="btn-outline theme-info">Detalles</button></a></td>
+                <td><a th:href="@{/animals/{id}/edit(id=${animal.id})}"><button type="button" class="btn-outline theme-warning">Editar</button></a></td>
+                <td>
+                    <form th:action="@{/animals/{id}/delete(id=${animal.id})}"
+                          method="post"
+                          style="display: inline;"
+                          onsubmit="return confirm('¿Estás seguro de que quieres eliminar este animal?');">
+
+                        <button type="submit" class="btn-outline theme-danger">
+                            Eliminar
+                        </button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>
