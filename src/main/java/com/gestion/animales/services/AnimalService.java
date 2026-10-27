@@ -37,4 +37,14 @@ public class AnimalService {
 
         return animal;
     }
+
+    public void update(int id, Animal datos) {
+        Animal animal = findById(id);
+
+        if (animal != null) {
+            animal.setNombre(datos.getNombre());
+            animal.setVidaMedia(datos.getVidaMedia());
+            animal.setExtinto(datos.isExtinto());
+        }
+    }
 }

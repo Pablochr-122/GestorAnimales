@@ -42,7 +42,47 @@ public class AnimalController {
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("animal", new Animal());
+        model.addAttribute("editMode", false);
         return "animals/new";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Integer id, Model model) {
+        Animal animal = service.findById(id);
+
+        if (animal == null) {
+            return "redirect:/animals";
+        }
+
+        model.addAttribute("animal", animal);
+        model.addAttribute("editMode", true);
+
+        return "animals/new";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String edit(
+            @PathVariable Integer id,
+            @Valid @ModelAttribute("animal") Animal datos,
+            BindingResult result,
+            Model model) {
+
+        Animal animal = service.findById(id);
+
+        if (animal == null) {
+            return "redirect:/animals";
+        }
+
+        if (result.hasErrors()) {
+            // Restaurar el ID original y mantener los errores
+            datos.setId(id);
+            model.addAttribute("editMode", true);
+            return "animals/new";
+        }
+
+        service.update(id, datos);
+
+        return "redirect:/animals";
     }
 
     @PostMapping
@@ -57,6 +97,8 @@ public class AnimalController {
         service.save(animal);
         return "redirect:/animals";
     }
+
+
 }
 
 
