@@ -1,55 +1,46 @@
 package com.gestion.animales.services;
-
-import org.springframework.stereotype.Service;
 import com.gestion.animales.models.Animal;
-import java.util.ArrayList;
+import com.gestion.animales.repositories.AnimalRepository;
+import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnimalService {
-    private final List<Animal> animals = new ArrayList<>();
 
-    public AnimalService() {
-        animals.add(new Animal(1, "Dodo", 30, true));
-        animals.add(new Animal(2, "Tortuga", 100, false));
-        animals.add(new Animal(3, "Lince", 15, false));
+    private final AnimalRepository repo;
+
+    public AnimalService(AnimalRepository repo) {
+        this.repo = repo;
     }
 
-    public List<Animal> findAll() { return animals; }
-
-    public Animal findById(int id) {
-        for (Animal animal : animals) {
-            if (animal.getId() == id) {
-                return animal;
-            }
-        }
-        return null;
+    public List<Animal> findAll() {
+        return repo.findAll();
     }
 
-    public Animal save(Animal animal) {
-        int nextId = animals.stream()
-                .mapToInt(Animal::getId)
-                .max()
-                .orElse(0) + 1;
-
-        animal.setId(nextId);
-        animals.add(animal);
-
-        return animal;
+    public Optional<Animal> findById(Integer id) {
+        return repo.findById(id);
     }
 
-    public void update(int id, Animal datos) {
-        Animal animal = findById(id);
+    public void save(Animal animal) {
+        repo.save(animal);
+    }
 
-        if (animal != null) {
+    public void update(Integer id, Animal datos) {
+        Optional<Animal> resultado = repo.findById(id);
+
+        if (resultado.isPresent()) {
+            Animal animal = resultado.get();
+
             animal.setNombre(datos.getNombre());
             animal.setVidaMedia(datos.getVidaMedia());
             animal.setExtinto(datos.isExtinto());
+
+            repo.save(animal);
         }
     }
 
-    public void deleteById(int id) {
-        animals.removeIf(animal -> animal.getId() == id);
+    public void deleteById(Integer id) {
+        repo.deleteById(id);
     }
-
 }
