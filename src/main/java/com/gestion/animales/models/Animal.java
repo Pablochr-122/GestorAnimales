@@ -1,11 +1,17 @@
 package com.gestion.animales.models;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+@Entity
+@Table(name = "animals")
 public class Animal {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @NotBlank(message = "El nombre es obligatorio.")
     @Size(min = 3, max = 15, message = "El nombre debe tener entre 3 y 15 caracteres.")
     private String nombre;

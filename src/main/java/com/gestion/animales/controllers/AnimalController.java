@@ -1,6 +1,7 @@
 package com.gestion.animales.controllers;
 
 import com.gestion.animales.models.Animal;
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -104,8 +105,6 @@ public class AnimalController {
         service.deleteById(id);
         return "redirect:/animals";
     }
-
-
 }
 
 
