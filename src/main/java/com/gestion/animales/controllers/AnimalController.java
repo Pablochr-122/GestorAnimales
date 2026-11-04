@@ -5,9 +5,7 @@ import com.gestion.animales.models.Animal;
 import com.gestion.animales.models.Clase;
 import com.gestion.animales.services.AnimalService;
 import com.gestion.animales.repositories.ClaseRepository;
-
 import jakarta.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,17 +25,14 @@ public class AnimalController {
         this.claseRepo = claseRepo;
     }
 
-    // Mostrar todos los animales
     @GetMapping
     public String index(Model model) {
         model.addAttribute("animals", service.findAll());
         return "animals/index";
     }
 
-    // Mostrar detalles
     @GetMapping("/{id}")
     public String detail(@PathVariable Integer id, Model model) {
-
         Optional<Animal> resultado = service.findById(id);
 
         if (resultado.isEmpty()) {
@@ -48,19 +43,17 @@ public class AnimalController {
         return "animals/detail";
     }
 
-    // Mostrar formulario de creación
+    // Crear animal
     @GetMapping("/new")
     public String createForm(Model model) {
-
         model.addAttribute("animal", new Animal());
         model.addAttribute("editMode", false);
         model.addAttribute("clases", claseRepo.findAll());
-        model.addAttribute("claseId", null);
 
         return "animals/new";
     }
 
-    // Crear animal
+    // Guardar animal nuevo
     @PostMapping
     public String create(
             @Valid @ModelAttribute("animal") Animal animal,
@@ -81,12 +74,15 @@ public class AnimalController {
             if (clase.isEmpty()) {
                 model.addAttribute("editMode", false);
                 model.addAttribute("clases", claseRepo.findAll());
-                model.addAttribute("claseId", null);
-                model.addAttribute("errorClase", "La clase seleccionada no existe.");
+                model.addAttribute("claseId", claseId);
+                model.addAttribute("errorClase",
+                        "La clase seleccionada no existe.");
                 return "animals/new";
             }
 
             animal.setClase(clase.get());
+        } else {
+            animal.setClase(null);
         }
 
         service.save(animal);
@@ -94,10 +90,9 @@ public class AnimalController {
         return "redirect:/animals";
     }
 
-    // Mostrar formulario de edición
+    // Formulario de edición
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Integer id, Model model) {
-
         Optional<Animal> resultado = service.findById(id);
 
         if (resultado.isEmpty()) {
@@ -109,15 +104,15 @@ public class AnimalController {
         model.addAttribute("animal", animal);
         model.addAttribute("editMode", true);
         model.addAttribute("clases", claseRepo.findAll());
-        model.addAttribute(
-                "claseId",
-                animal.getClase() != null ? animal.getClase().getId() : null
-        );
+        model.addAttribute("claseId",
+                animal.getClase() != null
+                        ? animal.getClase().getId()
+                        : null);
 
         return "animals/new";
     }
 
-    // Procesar edición
+    // Actualizar animal
     @PostMapping("/{id}/edit")
     public String edit(
             @PathVariable Integer id,
@@ -147,17 +142,18 @@ public class AnimalController {
                 datos.setId(id);
                 model.addAttribute("editMode", true);
                 model.addAttribute("clases", claseRepo.findAll());
-                model.addAttribute("claseId", null);
-                model.addAttribute("errorClase", "La clase seleccionada no existe.");
+                model.addAttribute("claseId", claseId);
+                model.addAttribute("errorClase",
+                        "La clase seleccionada no existe.");
                 return "animals/new";
             }
 
             datos.setClase(clase.get());
-
         } else {
             datos.setClase(null);
         }
 
+        // Guardar los cambios
         service.update(id, datos);
 
         return "redirect:/animals";
@@ -168,23 +164,5 @@ public class AnimalController {
     public String delete(@PathVariable Integer id) {
         service.deleteById(id);
         return "redirect:/animals";
-    }
-
-    // Mostrar animales de una clase
-    @GetMapping("/class/{claseId}")
-    public String animalsByClass(
-            @PathVariable Integer claseId,
-            Model model) {
-
-        Optional<Clase> resultado = claseRepo.findById(claseId);
-
-        if (resultado.isEmpty()) {
-            return "redirect:/animals";
-        }
-
-        model.addAttribute("animals", service.findByClaseId(claseId));
-        model.addAttribute("clase", resultado.get());
-
-        return "animals/index";
     }
 }

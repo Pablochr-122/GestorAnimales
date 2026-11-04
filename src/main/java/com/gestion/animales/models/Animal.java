@@ -1,4 +1,3 @@
-
 package com.gestion.animales.models;
 
 import jakarta.persistence.Entity;
