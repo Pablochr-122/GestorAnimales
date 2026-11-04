@@ -1,5 +1,14 @@
+
 package com.gestion.animales.models;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +17,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "animals")
 public class Animal {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -15,23 +25,34 @@ public class Animal {
     @NotBlank(message = "El nombre es obligatorio.")
     @Size(min = 3, max = 15, message = "El nombre debe tener entre 3 y 15 caracteres.")
     private String nombre;
+
     @Min(value = 0, message = "La vida media debe ser como mínimo 0.")
     @Max(value = 600, message = "La vida media no puede superar los 600.")
     private int vidaMedia;
+
     private boolean extinto;
 
-    //Constructor con los cuatro atributos
-    public Animal(Integer id, String nombre, int vidaMedia, boolean extinto) {
-        setId(id);
-        setNombre(nombre);
-        setVidaMedia(vidaMedia);
-        setExtinto(extinto);
+    @ManyToOne
+    @JoinColumn(name = "clase_id")
+    private Clase clase;
+
+    // Constructor vacío
+    public Animal() {
     }
 
-    //Generar getters y setters
+    // Constructor con los cuatro atributos originales
+    public Animal(Integer id, String nombre, int vidaMedia, boolean extinto) {
+        this.id = id;
+        this.nombre = nombre;
+        this.vidaMedia = vidaMedia;
+        this.extinto = extinto;
+    }
+
+    // Getters y setters
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -39,6 +60,7 @@ public class Animal {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -46,6 +68,7 @@ public class Animal {
     public int getVidaMedia() {
         return vidaMedia;
     }
+
     public void setVidaMedia(int vidaMedia) {
         this.vidaMedia = vidaMedia;
     }
@@ -53,13 +76,16 @@ public class Animal {
     public boolean isExtinto() {
         return extinto;
     }
+
     public void setExtinto(boolean extinto) {
         this.extinto = extinto;
     }
 
-    public Animal() {
+    public Clase getClase() {
+        return clase;
+    }
 
+    public void setClase(Clase clase) {
+        this.clase = clase;
     }
 }
-
-

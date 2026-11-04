@@ -15,6 +15,7 @@
             <li><p>Nombre: <span th:text="${animal.nombre}"></span></p></li>
             <li><p>Vida Media: <span th:text="${animal.vidaMedia}"></span></p></li>
             <li><p>Extinto: <span th:text="${animal.extinto ? 'Sí' : 'No'}"></span></p></li>
+            <li><p>Clase: <span th:text="${animal.clase != null ? animal.clase.nombre : 'Sin clase'}"></span></p></li>
         </ul>
         <a th:href="@{/animals}" class="btn btn-primary mt-5">Volver al listado</a>
     </div>

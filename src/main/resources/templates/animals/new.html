@@ -80,6 +80,31 @@
                 ¿Está extinto?
             </label>
         </div>
+        <div class="mb-3">
+            <label for="claseId" class="form-label">
+                Clase del animal
+            </label>
+
+            <select name="claseId"
+                    id="claseId"
+                    class="form-select">
+
+                <option value="">Elige una clase</option>
+
+                <option th:each="c : ${clases}"
+                        th:value="${c.id}"
+                        th:text="${c.nombre}"
+                        th:selected="${c.id == claseId}">
+                </option>
+
+            </select>
+
+            <div class="text-danger"
+                 th:if="${errorClase}"
+                 th:text="${errorClase}">
+            </div>
+        </div>
+
 
         <button type="submit"
                 class="btn btn-primary"

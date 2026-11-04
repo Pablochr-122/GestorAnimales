@@ -20,6 +20,7 @@
             <th>Nombre</th>
             <th>Vida media</th>
             <th>Extinto</th>
+            <th>Clase</th>
             <th>Detalles</th>
             <th>Editar</th>
             <th>Eliminar</th>
@@ -31,6 +32,7 @@
                 <td th:text="${animal.nombre}"></td>
                 <td th:text="${animal.vidaMedia}"></td>
                 <td th:text="${animal.extinto ? 'Sí' : 'No'}"></td>
+                <td th:text="${animal.clase != null ? animal.clase.nombre : 'Sin clase'}"></td>
                 <td><a th:href="@{/animals/{id}(id=${animal.id})}"><button type="button" class="btn-outline theme-info">Detalles</button></a></td>
                 <td><a th:href="@{/animals/{id}/edit(id=${animal.id})}"><button type="button" class="btn-outline theme-warning">Editar</button></a></td>
                 <td>

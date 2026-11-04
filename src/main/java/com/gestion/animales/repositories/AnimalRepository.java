@@ -1,9 +1,13 @@
+
 package com.gestion.animales.repositories;
 
 import com.gestion.animales.models.Animal;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AnimalRepository
-    extends JpaRepository<Animal, Integer> {
-}
+import java.util.List;
 
+public interface AnimalRepository extends JpaRepository<Animal, Integer> {
+
+    List<Animal> findByClase_Id(Integer claseId);
+
+}
