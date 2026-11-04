@@ -153,10 +153,27 @@ public class AnimalController {
             datos.setClase(null);
         }
 
-        // Guardar los cambios
         service.update(id, datos);
 
         return "redirect:/animals";
+    }
+
+    // Consultar animales de una clase
+    @GetMapping("/clases/{id}")
+    public String animalsByClass(@PathVariable Integer id, Model model) {
+
+        Optional<Clase> resultado = claseRepo.findById(id);
+
+        if (resultado.isEmpty()) {
+            return "redirect:/animals";
+        }
+
+        Clase clase = resultado.get();
+
+        model.addAttribute("clase", clase);
+        model.addAttribute("animals", service.findByClaseId(id));
+
+        return "animals/by-class";
     }
 
     // Eliminar animal
